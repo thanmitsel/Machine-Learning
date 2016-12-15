@@ -50,7 +50,7 @@ Theta2_grad = zeros(size(Theta2));
 %               binary vector of 1's and 0's to be used with the neural network
 %               cost function.
 %
-%         Hint: We recommend implementing backpropagation using a for-loop
+%       Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
@@ -74,7 +74,22 @@ end
 reg=lambda/(2*m)*(sum(sum(Theta1(:,2:end).^2))+sum(sum(Theta2(:,2:end).^2)));
 J=J+reg;
 
-
+for i=1:m
+    y_bin=(values==y(i));
+    a1=[1 X(i,:)];
+    z2=a1*Theta1';
+    a2=[1 sigmoid(z2)];
+    z3=a2*Theta2';
+    a3=sigmoid(z3);
+    error3=a3-y_bin;
+    error2=(error3*Theta2(:,2:end)).*sigmoidGradient(z2);
+    Theta2_grad=Theta2_grad+error3'*a2;
+    Theta1_grad=Theta1_grad+error2'*a1;
+end
+Theta1_grad(:,1)=1/m*Theta1_grad(:,1);
+Theta1_grad(:,2:end)=1/m*Theta1_grad(:,2:end)+lambda/m*Theta1(:,2:end);
+Theta2_grad(:,1)=1/m*Theta2_grad(:,1);
+Theta2_grad(:,2:end)=1/m*Theta2_grad(:,2:end)+lambda/m*Theta2(:,2:end);
 
 
 

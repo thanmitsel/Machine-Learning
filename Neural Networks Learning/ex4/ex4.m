@@ -141,7 +141,7 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %  code you've written in nnCostFunction.m to return the partial
 %  derivatives of the parameters.
 %
-fprintf('\nChecking Backpropagation... \n');
+ fprintf('\nChecking Backpropagation... \n');
 
 %  Check gradients by running checkNNGradients
 checkNNGradients;
