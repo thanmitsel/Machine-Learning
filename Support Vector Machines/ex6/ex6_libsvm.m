@@ -1,20 +1,18 @@
 %% Machine Learning Online Class
 %  Exercise 6 | Support Vector Machines
-%
+%  
 %  Instructions
 %  ------------
 % 
 %  This file contains code that helps you get started on the
 %  exercise. You will need to complete the following functions:
 %
-%     gaussianKernel.m
-%     dataset3Params.m
-%     processEmail.m
-%     emailFeatures.m
+%   visualizeBoundary_libsvm.m
+%   visualizeBoundaryLinear_libsvm.m
 %
-%  For this exercise, you will not need to change any code in this file,
-%  or any other files other than those mentioned above.
-%
+%  NOTE: sigma falsly represents gamma in this code.
+%  correct formula for gamma is gamma=1/(2*sigma^2)
+%  So for this script false_sigma=30-> gamma=30-> right_sigma=0.1
 
 %% Initialization
 clear ; close all; clc
@@ -51,8 +49,8 @@ fprintf('\nTraining Linear SVM ...\n')
 % You should try to change the C value below and see how the decision
 % boundary varies (e.g., try C = 1000)
 C = 1;
-model = svmTrain(X, y, C, @linearKernel, 1e-3, 20);
-visualizeBoundaryLinear(X, y, model);
+model=svmtrain(y, X, '-t 0 -c 1');
+%visualizeBoundaryLinear(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -104,9 +102,10 @@ C = 1; sigma = 0.1;
 
 % We set the tolerance and max_passes lower here so that the code will run
 % faster. However, in practice, you will want to run the training to
-% convergence.
-model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
-visualizeBoundary(X, y, model);
+% convergence
+arguments=[' -t ' num2str(2) ' -g ' num2str(sigma) ' -c ' num2str(C)];  
+model=svmtrain(y,X,arguments);
+%visualizeBoundary_libsvm(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -139,11 +138,12 @@ pause;
 load('ex6data3.mat');
 
 % Try different SVM Parameters here
-[C, sigma] = dataset3Params(X, y, Xval, yval);
+[C, sigma] = dataset3Params_libsvm(X, y, Xval, yval);
 
 % Train the SVM
-model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma));
-visualizeBoundary(X, y, model);
+arguments=[' -t ' num2str(2) ' -g ' num2str(sigma) ' -c ' num2str(C)]; 
+model=svmtrain(y,X,arguments);
+%visualizeBoundary_libsvm(X, y, model);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
