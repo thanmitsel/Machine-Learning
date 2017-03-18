@@ -24,7 +24,8 @@ idx = zeros(size(X,1), 1);
 value=zeros(size(X,1),1);
 
 for i=1:size(X,1)
-    dist=sum((X(i,:)-centroids).^2,2);
+    Xmat=repmat(X,size(centroids,1),1); 
+    dist=sum((Xmat-centroids).^2,2); % Matlab insists on operations
     [value(i), idx(i)]=min(dist);
 end
 
